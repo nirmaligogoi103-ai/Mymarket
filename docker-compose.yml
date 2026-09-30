@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mymarket
+      POSTGRES_USER: mymarket
+      POSTGRES_PASSWORD: change_this_local_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - mymarket_db:/var/lib/postgresql/data
+      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+  server:
+    build: ./server
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgresql://mymarket:change_this_local_password@db:5432/mymarket
+      JWT_SECRET: replace_with_a_long_random_secret
+      NODE_ENV: production
+      PAYMENT_MODE: mock
+      ALLOW_BOOTSTRAP_ADMIN: "false"
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+volumes:
+  mymarket_db:

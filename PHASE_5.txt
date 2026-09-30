@@ -1,0 +1,4 @@
+MyMarket Phase 5
+Verified development package.
+Frontend flow expanded and backend chat streaming fixed.
+Real payment/OTP credentials remain intentionally unconfigured.
